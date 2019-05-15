@@ -22,7 +22,7 @@ openstack_service_workers: "1"
 {% if need_build_image and not is_previous_release %}
 # NOTE(Jeffrey4l): use different a docker namespace name in case it pull image from hub.docker.io when deplying
 docker_namespace: "lokolla"
-docker_registry: "{{ api_interface_address }}:4000"
+docker_registry: "[{{ api_interface_address }}]:4000"
 openstack_release: "change_{{ zuul.change }}"
 {% else %}
 # use docker hub images
@@ -30,7 +30,7 @@ docker_namespace: "kolla"
 {% if need_build_image and is_previous_release %}
 # NOTE(mgoddard): Ensure that the insecure local registry is trusted, since it
 # will be the source of images during the upgrade.
-docker_custom_option: "--insecure-registry {{ api_interface_address }}:4000"
+docker_custom_option: "--insecure-registry [{{ api_interface_address }}]:4000"
 {% endif %}
 {% if not is_previous_release %}
 openstack_release: "{{ zuul.branch | basename }}"
@@ -59,7 +59,7 @@ glance_api_hosts: ["{{ inventory_hostname }}"]
 enable_zun: "yes"
 enable_kuryr: "yes"
 enable_etcd: "yes"
-docker_custom_option: " -H unix:///var/run/docker.sock -H tcp://{{ api_interface_address }}:2375 --cluster-store=etcd://{{ api_interface_address }}:2379 --cluster-advertise={{ api_interface_address }}:2375"
+docker_custom_option: " -H unix:///var/run/docker.sock -H tcp://[{{ api_interface_address }}]:2375 --cluster-store=etcd://[{{ api_interface_address }}]:2379 --cluster-advertise=[{{ api_interface_address }}]:2375"
 {% endif %}
 
 {% if scenario == "scenario_nfv" %}

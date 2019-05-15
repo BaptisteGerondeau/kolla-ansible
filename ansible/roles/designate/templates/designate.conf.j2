@@ -11,8 +11,8 @@ default_pool_id = {{ designate_pool_id }}
 workers = {{ openstack_service_workers }}
 
 [service:api]
-listen = {{ api_interface_address }}:{{ designate_api_listen_port }}
-api_base_uri = {{ internal_protocol }}://{{ designate_internal_fqdn }}:{{ designate_api_port }}
+listen = [{{ api_interface_address }}]:{{ designate_api_listen_port }}
+api_base_uri = {{ internal_protocol }}://[{{ designate_internal_fqdn }}]:{{ designate_api_port }}
 enabled_extensions_v2 = 'quotas, reports'
 workers = {{ openstack_service_workers }}
 enable_host_header = True
@@ -31,7 +31,7 @@ service_token_roles_required = True
 
 memcache_security_strategy = ENCRYPT
 memcache_secret_key = {{ memcache_secret_key }}
-memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
+memcached_servers = {% for host in groups['memcached'] %}inet6:[{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv6'][0]['address'] }}]:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
 
 [service:sink]
 enabled_notification_handlers = nova_fixed, neutron_floatingip
@@ -39,7 +39,7 @@ workers = {{ openstack_service_workers }}
 
 {% if service_name == 'designate-mdns' %}
 [service:mdns]
-listen = {{ hostvars[inventory_hostname]['ansible_' + dns_interface]['ipv4']['address'] }}:{{ designate_mdns_port }}
+listen = {{ hostvars[inventory_hostname]['ansible_' + dns_interface]['ipv6'][0]['address'] }}:{{ designate_mdns_port }}
 workers = {{ openstack_service_workers }}
 {% endif %}
 
@@ -70,7 +70,7 @@ max_retries = 10
 idle_timeout = 3600
 
 [pool_manager_cache:memcache]
-memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
+memcached_servers = {% for host in groups['memcached'] %}inet6:[{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv6'][0]['address'] }}]:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
 
 [storage:sqlalchemy]
 connection = mysql+pymysql://{{ designate_database_user }}:{{ designate_database_password }}@{{ designate_database_address }}/{{ designate_database_name }}

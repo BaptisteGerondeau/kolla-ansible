@@ -12,3 +12,21 @@
     src: /var/lib/docker/volumes/kolla_logs/_data
     path: /var/log/kolla
     state: link
+
+- name: Creating fluentd volume plugins
+  become: true
+  kolla_docker:
+    action: "create_volume"
+    common_options: "{{ docker_common_options }}"
+    name: "fluentd_plugins"
+
+- name: Get the plugins in the volume
+  become: true
+  git:
+    force: yes
+    repo: "{{ item.repo }}"
+    version: "{{ item.branch }}"
+    dest: /var/lib/docker/volumes/fluentd_plugins/_data/
+  with_items:
+    - {'branch': 'fluentd-v0.12', 'repo': "https://github.com/fluent/fluent-plugin-rewrite-tag-filter.git"}
+    - {'branch': 'fluentd-v0.12', 'repo': "https://github.com/fluent/fluent-plugin-grok-parser.git"}

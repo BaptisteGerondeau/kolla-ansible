@@ -5,13 +5,13 @@
     "config_files": [
         {
             "source": "{{ container_config_directory }}/placement.conf",
-            "dest": "/etc/placement/placement.conf",
+            "dest": "/etc/nova/placement.conf",
             "owner": "placement",
             "perm": "0600"
         }{% if placement_policy_file is defined %},
         {
             "source": "{{ container_config_directory }}/{{ placement_policy_file }}",
-            "dest": "/etc/placement/{{ placement_policy_file }}",
+            "dest": "/etc/nova/{{ placement_policy_file }}",
             "owner": "placement",
             "perm": "0600"
         }{% endif %},
@@ -23,19 +23,19 @@
         },
         {
             "source": "{{ container_config_directory }}/migrate-db.rc",
-            "dest": "/etc/placement/migrate-db.rc",
+            "dest": "/etc/nova/migrate-db.rc",
             "owner": "placement",
             "perm": "0600"
         }
     ],
     "permissions": [
         {
-            "path": "/var/log/kolla/placement",
+            "path": "/var/log/kolla/nova",
             "owner": "placement:kolla",
             "recurse": true
         },
         {
-            "path": "/var/log/kolla/placement/placement.log",
+            "path": "/var/log/kolla/nova/placement.log",
             "owner": "placement:placement"
         }
     ]

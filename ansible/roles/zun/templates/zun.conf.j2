@@ -49,7 +49,7 @@ password = {{ zun_keystone_password }}
 
 memcache_security_strategy = ENCRYPT
 memcache_secret_key = {{ memcache_secret_key }}
-memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
+memcached_servers = {% for host in groups['memcached'] %}inet6:[{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv6'][0]['address'] }}]:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
 
 [keystone_authtoken]
 www_authenticate_uri = {{ keystone_internal_url }}
@@ -64,7 +64,7 @@ service_token_roles_required = True
 
 memcache_security_strategy = ENCRYPT
 memcache_secret_key = {{ memcache_secret_key }}
-memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
+memcached_servers = {% for host in groups['memcached'] %}inet6:[{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv6'][0]['address'] }}]:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
 
 [glance_client]
 auth_uri = {{ keystone_internal_url }}
@@ -109,8 +109,8 @@ policy_file = {{ zun_policy_file }}
 [websocket_proxy]
 wsproxy_host = {{ api_interface_address }}
 wsproxy_port = {{ zun_wsproxy_port }}
-base_url = ws://{{ kolla_external_fqdn }}:{{ zun_wsproxy_port }}
+base_url = ws://[{{ kolla_external_fqdn }}]:{{ zun_wsproxy_port }}
 
 [docker]
 docker_remote_api_version = 1.24
-api_url = tcp://{{ api_interface_address }}:2375
+api_url = tcp://[{{ api_interface_address }}]:2375

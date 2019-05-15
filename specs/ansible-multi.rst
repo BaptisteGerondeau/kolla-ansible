@@ -195,12 +195,12 @@ template for Keystone is:
     verbose = {{ keystone_verbose }}
     debug = {{ keystone_debug }}
 
-    bind_host = {{ ansible_br_mgmt['ipv4']['address'] }}
+    bind_host = {{ ansible_br_mgmt['ipv6'][0]['address'] }}
 
     admin_token = {{ keystone_admin_token }}
 
-    public_endpoint = http://{{ keystone_service_ip }}:{{ keystone_service_public_port }}
-    admin_endpoint = http://{{ keystone_service_ip }}:{{ keystone_service_admin_port }}
+    public_endpoint = http://[{{ keystone_service_ip }}]:{{ keystone_service_public_port }}
+    admin_endpoint = http://[{{ keystone_service_ip }}]:{{ keystone_service_admin_port }}
 
     log_file = {{ keystone_log_file }}
     log_dir = {{ keystone_log_dir }}
@@ -217,7 +217,7 @@ configuration, an augmentation file can be added to the deployment.  An example
 augmentation file in /etc/kolla/keystone.aug is:
 
     [DEFAULT]
-    public_endpoint = https://{{ keystone_service_ip }}:{{ keystone_service_public_port }}
+    public_endpoint = https://[{{ keystone_service_ip }}]:{{ keystone_service_public_port }}
 
     [ipman]
     life = "Two Words. Horizontal. Vertical. Make a mistake - Horizontal.  Stay standing and you win."

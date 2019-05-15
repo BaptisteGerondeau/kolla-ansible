@@ -12,6 +12,28 @@
     - "cron"
     - "cron/logrotate"
 
+- name: Find custom fluentd config file
+  local_action:
+    module: find
+    path: "{{ node_custom_config }}/fluentd"
+    pattern: "*.conf"
+  run_once: True
+  register: find_custom_fluentd
+  when:
+    - enable_fluentd | bool
+
+- name: Copying over custom fluentd config file
+  template:
+    src: "{{ item.path }}"
+    dest: "{{ node_config_directory }}/fluentd/{{ item.path | basename }}"
+    mode: "0660"
+  register: fluentd_conf_custom
+  when:
+    - enable_fluentd | bool
+  with_items: "{{ find_custom_fluentd.files }}"
+  notify:
+    - Restart fluentd container
+
 - name: Ensuring fluentd config directories exist
   file:
     path: "{{ node_config_directory }}/{{ item }}"

@@ -78,7 +78,7 @@ novncproxy_port = {{ nova_novncproxy_listen_port }}
 server_listen = {{ api_interface_address }}
 server_proxyclient_address = {{ api_interface_address }}
 {% if inventory_hostname in groups['compute'] %}
-novncproxy_base_url = {{ public_protocol }}://{{ nova_novncproxy_fqdn }}:{{ nova_novncproxy_port }}/vnc_auto.html
+novncproxy_base_url = {{ public_protocol }}://[{{ nova_novncproxy_fqdn }}]:{{ nova_novncproxy_port }}/vnc_auto.html
 {% endif %}
 {% endif %}
 {% elif nova_console == 'spice' %}
@@ -90,7 +90,7 @@ enabled = true
 server_listen = {{ api_interface_address }}
 server_proxyclient_address = {{ api_interface_address }}
 {% if inventory_hostname in groups['compute'] %}
-html5proxy_base_url = {{ public_protocol }}://{{ nova_spicehtml5proxy_fqdn }}:{{ nova_spicehtml5proxy_port }}/spice_auto.html
+html5proxy_base_url = {{ public_protocol }}://[{{ nova_spicehtml5proxy_fqdn }}]:{{ nova_spicehtml5proxy_port }}/spice_auto.html
 {% endif %}
 html5proxy_host = {{ api_interface_address }}
 html5proxy_port = {{ nova_spicehtml5proxy_listen_port }}
@@ -103,7 +103,7 @@ enabled = false
 {% if enable_nova_serialconsole_proxy | bool %}
 [serial_console]
 enabled = true
-base_url = ws://{{ nova_serialproxy_fqdn }}:{{ nova_serialproxy_port }}/
+base_url = ws://[{{ nova_serialproxy_fqdn }}]:{{ nova_serialproxy_port }}/
 serialproxy_host = {{ api_interface_address }}
 serialproxy_port = {{ nova_serialproxy_listen_port }}
 proxyclient_address = {{ api_interface_address }}
@@ -118,7 +118,7 @@ auth_type = password
 project_name = service
 user_domain_name = {{ default_user_domain_name }}
 project_domain_name = {{ default_project_domain_name }}
-endpoint_override = {{ internal_protocol }}://{{ ironic_internal_fqdn }}:{{ ironic_api_port }}/v1
+endpoint_override = {{ internal_protocol }}://[{{ ironic_internal_fqdn }}]:{{ ironic_api_port }}/v1
 {% endif %}
 
 [oslo_middleware]
@@ -128,7 +128,7 @@ enable_proxy_headers_parsing = True
 lock_path = /var/lib/nova/tmp
 
 [glance]
-api_servers = {{ internal_protocol }}://{{ glance_internal_fqdn }}:{{ glance_api_port }}
+api_servers = {{ internal_protocol }}://[{{ glance_internal_fqdn }}]:{{ glance_api_port }}
 
 num_retries = {{ groups['glance-api'] | length }}
 
@@ -139,7 +139,7 @@ os_region_name = {{ openstack_region_name }}
 {% endif %}
 
 [neutron]
-url = {{ internal_protocol }}://{{ neutron_internal_fqdn }}:{{ neutron_server_port }}
+url = {{ internal_protocol }}://[{{ neutron_internal_fqdn }}]:{{ neutron_server_port }}
 metadata_proxy_shared_secret = {{ metadata_secret }}
 service_metadata_proxy = true
 {% if neutron_plugin_agent == 'vmware_nsxv3' %}
@@ -164,9 +164,9 @@ connection = mysql+pymysql://{{ nova_api_database_user }}:{{ nova_api_database_p
 max_retries = -1
 
 [cache]
-backend = oslo_cache.memcache_pool
+backend = dogpile.cache.memcached
 enabled = True
-memcache_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
+memcache_servers = {% for host in groups['memcached'] %}[{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv6'][0]['address'] }}]:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
 
 
 [keystone_authtoken]
@@ -181,11 +181,11 @@ password = {{ nova_keystone_password }}
 
 memcache_security_strategy = ENCRYPT
 memcache_secret_key = {{ memcache_secret_key }}
-memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
+memcached_servers = {% for host in groups['memcached'] %}inet6:[{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv6'][0]['address'] }}]:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
 
 {% if nova_compute_virt_type in ['kvm', 'qemu'] %}
 [libvirt]
-connection_uri = "qemu+tcp://{{ migration_interface_address }}/system"
+connection_uri = "qemu+tcp://[{{ migration_interface_address }}]/system"
 {% if enable_ceph | bool and nova_backend == "rbd" %}
 images_type = rbd
 images_rbd_pool = {{ ceph_nova_pool_name }}

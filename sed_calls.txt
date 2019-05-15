@@ -1,0 +1,92 @@
+  611  find . -type f -exec sed -i  "s/\['ipv4'\]/\['ipv6'\]\[0\]/g"
+  612  find . -type f -exec sed -i "s/\['ipv4'\]/\['ipv6'\]\[0\]/g" {} +
+ 1177  sed -i 's/\{\{ hostvars\[host\]\[\'ansible_\' \+ hostvars\[host\]\[\'api_interface\'\]\]\[\'ipv6\'\]\[0\]\[\'address\'\] \}\}/\[\{\{ hostvars\[host\]\[\'ansible_\' \+ hostvars\[host\]\[\'api_interface\'\]\]\[\'ipv6\'\]\[0\]\[\'address\'\] \}\}\]/g' ./test
+ 1178  sed -i "s/\{\{ hostvars\[host\]\[\'ansible_\' \+ hostvars\[host\]\[\'api_interface\'\]\]\[\'ipv6\'\]\[0\]\[\'address\'\] \}\}/\[\{\{ hostvars\[host\]\[\'ansible_\' \+ hostvars\[host\]\[\'api_interface\'\]\]\[\'ipv6\'\]\[0\]\[\'address\'\] \}\}\]/g" ./test
+ 1179  sed -i "s/\{\{ hostvars\[host\]\['ansible_' \+ hostvars\[host\]\['api_interface'\]\]\['ipv6'\]\[0\]\['address'\] \}\}/\[\{\{ hostvars\[host\]\['ansible_' \+ hostvars\[host\]\['api_interface'\]\]\['ipv6'\]\[0\]\['address'\] \}\}\]/g" ./test
+ 1180  sed -i "s/\{\{ hostvars\[host\]\['ansible_' \+ hostvars\[host\]\['api_interface'\]\]\['ipv6'\]\[0\]\['address'\]\w+\}\}/\[\{\{\w+hostvars\[host\]\['ansible_' \+ hostvars\[host\]\['api_interface'\]\]\['ipv6'\]\[0\]\['address'\]\w+\}\}\]/g" ./test
+ 1181  sed -i "s/\{\{ hostvars\[host\]\['ansible_' \+ hostvars\[host\]\['api_interface'\]\]\['ipv6'\]\[0\]\['address'\] \}\}/\[\{\{ hostvars\[host\]\['ansible_' \+ hostvars\[host\]\['api_interface'\]\]\['ipv6'\]\[0\]\['address'\] \}\}\]/g" ./test
+ 1183  sed -i 's/\{\{ hostvars\[host\]\['ansible_' \+ hostvars\[host\]\['api_interface'\]\]\['ipv6'\]\[0\]\['address'\] \}\}/\[\{\{ hostvars\[host\]\['ansible_' \+ hostvars\[host\]\['api_interface'\]\]\['ipv6'\]\[0\]\['address'\] \}\}\]/g' ./test
+ 1185  sed -r -i 's/\{\{ hostvars\[host\]\['ansible_' \+ hostvars\[host\]\['api_interface'\]\]\['ipv6'\]\[0\]\['address'\] \}\}/\[\{\{ hostvars\[host\]\['ansible_' \+ hostvars\[host\]\['api_interface'\]\]\['ipv6'\]\[0\]\['address'\] \}\}\]/g' ./test
+ 1187  sed -r -i 's/\{\{ hostvars\[host\]\[\'ansible_\' \+ hostvars\[host\]\[\'api_interface\'\]\]\[\'ipv6\'\]\[0\]\[\'address\'\] \}\}/\[\{\{ hostvars\[host\]\[\'ansible_\' \+ hostvars\[host\]\[\'api_interface\'\]\]\[\'ipv6\'\]\[0\]\[\'address\'\] \}\}\]/g' ./test
+ 1188  sed -r -i "s/\{\{ hostvars\[host\]\[\'ansible_\' \+ hostvars\[host\]\[\'api_interface\'\]\]\[\'ipv6\'\]\[0\]\[\'address\'\] \}\}/\[\{\{ hostvars\[host\]\[\'ansible_\' \+ hostvars\[host\]\[\'api_interface\'\]\]\[\'ipv6\'\]\[0\]\[\'address\'\] \}\}\]/g" ./test
+ 1192  sed -i -r "s/\{\{ hostvars\[host\]\[\'ansible_\' \+ hostvars\[host\]\[\'api_interface\'\]\]\[\'ipv6\'\]\[0\]\[\'address\'\] \}\}//g"
+ 1193  sed -i -r "s/\{\{ hostvars\[host\]\[\'ansible_\' \+ hostvars\[host\]\[\'api_interface\'\]\]\[\'ipv6\'\]\[0\]\[\'address\'\] \}\}//g" ./test
+ 1195  sed -i -r "s/\{\{ hostvars\[host\]\[\'ansible_\' \+ hostvars\[host\]\[\'api_interface\'\]\]\[\'ipv6\'\]\[0\]\[\'address\'\] \}\}//g" ./test
+ 1196  sed -i -r "s/\{\{\whostvars\[host\]\[\'ansible_\'\w\+\whostvars\[host\]\[\'api_interface\'\]\]\[\'ipv6\'\]\[0\]\[\'address\'\]\w\}\}//g" ./test
+ 1198  sed -i -r "s/\{\{\whostvars\[host\]\[\'ansible_\'\w\+\whostvars\[host\]\[\'api_interface\'\]\]\[\'ipv6\'\]\[0\]\[\'address\'\]\w\}\}//g" ./test
+ 1200  cat test | sed -r "s/\{\{\whostvars\[host\]\[\'ansible_\'\w\+\whostvars\[host\]\[\'api_interface\'\]\]\[\'ipv6\'\]\[0\]\[\'address\'\]\w\}\}//g"
+ 1201  cat test | sed -r "s/\{\{\whostvars\[host\]\[\'ansible_\'\w\+\whostvars\[host\]\[\'api_interface\'\]\]\[\'ipv6\'\]\[0\]\[\'address\'\].*\}\}//g"
+ 1202  cat test | sed -r "s/\{\{.*hostvars\[host\]\[\'ansible_\'.*\+\whostvars\[host\]\[\'api_interface\'\]\]\[\'ipv6\'\]\[0\]\[\'address\'\].*\}\}//g"
+ 1203  cat test | sed -r "s/\{\{.*hostvars\[host\]\[\'ansible_\'.*\+\whostvars\[host\]\[\'api_interface\'\]\]\[\'ipv6\'\]\[0\]\[\'address\'\].*\}\}/d/g"
+ 1204  cat test | sed -r "s/\{\{.*\}\}/d/g"
+ 1205  cat test | sed -r "s/\{\{ hostvars.*\}\}/d/g"
+ 1206  cat test | sed -r "s/\{\{ hostvars.*\}\}/yes/g"
+ 1207  cat test | sed -r "s/\{\{ hostvars\[host\].*\}\}/yes/g"
+ 1208  cat test | sed -r "s/\{\{ hostvars\[host\]\[\'ansible\' \+.*\}\}/yes/g"
+ 1209  cat test | sed -r "s/\{\{ hostvars\[host\]\[\'ansible\'.*\}\}/yes/g"
+ 1210  cat test | sed -r "s/\{\{ hostvars\[host\]\['ansible'.*\}\}/yes/g"
+ 1211  cat test | sed -r "s/\{\{ hostvars\[host\]\[.*\}\}/yes/g"
+ 1212  cat test | sed -r "s/\{\{ hostvars\[host\]\[\'.*\}\}/yes/g"
+ 1213  cat test | sed -r "s/\{\{ hostvars\[host\]\[\\'.*\}\}/yes/g"
+ 1214  cat test | sed -r "s/\{\{ hostvars\[host\]\[\x27.*\}\}/yes/g"
+ 1215  cat test | sed -r "s/\{\{ hostvars\[host\]\[\x27ansible_\x27.*\}\}/yes/g"
+ 1216  cat test | sed -r "s/\{\{ hostvars\[host\]\[\x27ansible_\x27 \+ hostvars\[host\]\[\x27api_interface\x27\]\]\[\x27ipv6\x27\]\[0\]\[\x27address\x27\] \}\}/yes/g"
+ 1217  cat test | sed -r "s/\{\{ hostvars\[host\]\[\x27ansible_\x27 \+ hostvars\[host\]\[\x27api_interface\x27\]\]\[\x27ipv6\x27\]\[0\]\[\x27address\x27\] \}\}/\[\{\{ hostvars\[host\]\[\x27ansible_\x27 \+ hostvars\[host\]\[\x27api_interface\x27\]\]\[\x27ipv6\x27\]\[0\]\[\x27address\x27\] \}\}\]/g"
+ 1218  cat test | sed -r "s/[^\x5b]\{\{ hostvars\[host\]\[\x27ansible_\x27 \+ hostvars\[host\]\[\x27api_interface\x27\]\]\[\x27ipv6\x27\]\[0\]\[\x27address\x27\] \}\}[^\x5b]/yes/g"
+ 1219  cat test | sed -r "s/[^[]\{\{ hostvars\[host\]\[\x27ansible_\x27 \+ hostvars\[host\]\[\x27api_interface\x27\]\]\[\x27ipv6\x27\]\[0\]\[\x27address\x27\] \}\}[^]]/yes/g"
+ 1221  cat test | sed -r "s/[^[]\{\{ hostvars\[host\]\[\x27ansible_\x27 \+ hostvars\[host\]\[\x27api_interface\x27\]\]\[\x27ipv6\x27\]\[0\]\[\x27address\x27\] \}\}[^]]/yes/g"
+ 1222  cat test | sed -r "s/[^[]\{\{ hostvars\[host\]\[\x27ansible_\x27 \+ hostvars\[host\]\[\x27api_interface\x27\]\]\[\x27ipv6\x27\]\[0\]\[\x27address\x27\] \}\}/yes/g"
+ 1224  cat test | sed -r "s/[^[|.*]\{\{ hostvars\[host\]\[\x27ansible_\x27 \+ hostvars\[host\]\[\x27api_interface\x27\]\]\[\x27ipv6\x27\]\[0\]\[\x27address\x27\] \}\}/yes/g"
+ 1225  cat test | sed -r "[^]]?\{\{ hostvars\[host\]\[\x27ansible_\x27 \+ hostvars\[host\]\[\x27api_interface\x27\]\]\[\x27ipv6\x27\]\[0\]\[\x27address\x27\] \}\}/yes/g"
+ 1226  cat test | sed -r "s/[^]]?\{\{ hostvars\[host\]\[\x27ansible_\x27 \+ hostvars\[host\]\[\x27api_interface\x27\]\]\[\x27ipv6\x27\]\[0\]\[\x27address\x27\] \}\}/yes/g"
+ 1227  cat test | sed -r "s/[^]]?\{\{ hostvars\[host\]\[\x27ansible_\x27 \+ hostvars\[host\]\[\x27api_interface\x27\]\]\[\x27ipv6\x27\]\[0\]\[\x27address\x27\] \}\}[^]]?/yes/g"
+ 1229  cat test | sed -r "s/[^]]?\{\{ hostvars\[host\]\[\x27ansible_\x27 \+ hostvars\[host\]\[\x27api_interface\x27\]\]\[\x27ipv6\x27\]\[0\]\[\x27address\x27\] \}\}[^]]?/yes/g"
+ 1231  cat test | sed -r "s/[^]]{0,1}\{\{ hostvars\[host\]\[\x27ansible_\x27 \+ hostvars\[host\]\[\x27api_interface\x27\]\]\[\x27ipv6\x27\]\[0\]\[\x27address\x27\] \}\}[^]]?/yes/g"
+ 1232  cat test | sed -r "s/[^]]{0,1}\{\{ hostvars\[host\]\[\x27ansible_\x27 \+ hostvars\[host\]\[\x27api_interface\x27\]\]\[\x27ipv6\x27\]\[0\]\[\x27address\x27\] \}\}[^]]{0,1}/yes/g"
+ 1233  cat test | sed -r "s/[^]]?\{\{ hostvars\[host\]\[\x27ansible_\x27 \+ hostvars\[host\]\[\x27api_interface\x27\]\]\[\x27ipv6\x27\]\[0\]\[\x27address\x27\] \}\}[^]]?/yes/g"
+ 1235  cat test | sed -r "s/[^]]?\{\{ hostvars\[host\]\[\x27ansible_\x27 \+ hostvars\[host\]\[\x27api_interface\x27\]\]\[\x27ipv6\x27\]\[0\]\[\x27address\x27\] \}\}([^]]?)/yes/g"
+ 1236  cat test | sed -r "s/([^]]?)\{\{ hostvars\[host\]\[\x27ansible_\x27 \+ hostvars\[host\]\[\x27api_interface\x27\]\]\[\x27ipv6\x27\]\[0\]\[\x27address\x27\] \}\}([^]]?)/yes/g"
+ 1237  cat test | sed -r "s/^([^]]?)\{\{ hostvars\[host\]\[\x27ansible_\x27 \+ hostvars\[host\]\[\x27api_interface\x27\]\]\[\x27ipv6\x27\]\[0\]\[\x27address\x27\] \}\}([^]]?)/yes/g"
+ 1238  cat test | sed -r "s/([^]]?)\{\{ hostvars\[host\]\[\x27ansible_\x27 \+ hostvars\[host\]\[\x27api_interface\x27\]\]\[\x27ipv6\x27\]\[0\]\[\x27address\x27\] \}\}([^]]?)/yes/g"
+ 1239  cat test | sed -r "s/[^]]?\{\{ hostvars\[host\]\[\x27ansible_\x27 \+ hostvars\[host\]\[\x27api_interface\x27\]\]\[\x27ipv6\x27\]\[0\]\[\x27address\x27\] \}\}[^]]/yes/g"
+ 1240  cat test | sed -r "s/[^]]?\{\{ hostvars\[host\]\[\x27ansible_\x27 \+ hostvars\[host\]\[\x27api_interface\x27\]\]\[\x27ipv6\x27\]\[0\]\[\x27address\x27\] \}\}[^]]?/yes/g"
+ 1241  cat test | sed -r "s/[^]]\{\{ hostvars\[host\]\[\x27ansible_\x27 \+ hostvars\[host\]\[\x27api_interface\x27\]\]\[\x27ipv6\x27\]\[0\]\[\x27address\x27\] \}\}[^]]/yes/g"
+ 1242  cat test | sed -r "s/[^]|]\{\{ hostvars\[host\]\[\x27ansible_\x27 \+ hostvars\[host\]\[\x27api_interface\x27\]\]\[\x27ipv6\x27\]\[0\]\[\x27address\x27\] \}\}[^]]/yes/g"
+ 1243  cat test | sed -r "s/[^]|]\{\{ hostvars\[host\]\[\x27ansible_\x27 \+ hostvars\[host\]\[\x27api_interface\x27\]\]\[\x27ipv6\x27\]\[0\]\[\x27address\x27\] \}\}[^]|]/yes/g"
+ 1244  cat test | sed -r "s/[^]]?\{\{ hostvars\[host\]\[\x27ansible_\x27 \+ hostvars\[host\]\[\x27api_interface\x27\]\]\[\x27ipv6\x27\]\[0\]\[\x27address\x27\] \}\}[^]|]/yes/g"
+ 1245  cat test | sed -r "s/[^]]?\{\{ hostvars\[host\]\[\x27ansible_\x27 \+ hostvars\[host\]\[\x27api_interface\x27\]\]\[\x27ipv6\x27\]\[0\]\[\x27address\x27\] \}\}/yes/g"
+ 1246  cat test | sed -r "s/[^]?]\{\{ hostvars\[host\]\[\x27ansible_\x27 \+ hostvars\[host\]\[\x27api_interface\x27\]\]\[\x27ipv6\x27\]\[0\]\[\x27address\x27\] \}\}/yes/g"
+ 1247  cat test | sed -r "s/[^]]\{\{ hostvars\[host\]\[\x27ansible_\x27 \+ hostvars\[host\]\[\x27api_interface\x27\]\]\[\x27ipv6\x27\]\[0\]\[\x27address\x27\] \}\}/yes/g"
+ 1248  cat test | sed -r "s/^.*[^]]\{\{ hostvars\[host\]\[\x27ansible_\x27 \+ hostvars\[host\]\[\x27api_interface\x27\]\]\[\x27ipv6\x27\]\[0\]\[\x27address\x27\] \}\}/yes/g"
+ 1249  cat test | sed -r "s/(?<=[^]]?){\{ hostvars\[host\]\[\x27ansible_\x27 \+ hostvars\[host\]\[\x27api_interface\x27\]\]\[\x27ipv6\x27\]\[0\]\[\x27address\x27\] \}\}/yes/g"
+ 1250  cat test | sed -r "s/(?<=[^]]){\{ hostvars\[host\]\[\x27ansible_\x27 \+ hostvars\[host\]\[\x27api_interface\x27\]\]\[\x27ipv6\x27\]\[0\]\[\x27address\x27\] \}\}/yes/g"
+ 1251  cat test | sed -r "s/(?<=[^]])\{\{ hostvars\[host\]\[\x27ansible_\x27 \+ hostvars\[host\]\[\x27api_interface\x27\]\]\[\x27ipv6\x27\]\[0\]\[\x27address\x27\] \}\}/yes/g"
+ 1276  grep -nrP --color "memcached_servers = \{\% for host in groups\[\x27memcached\x27\] \%\}" | sed -i -r 's/memcached_servers = \{\% for host in groups\[\x27memcached\x27\] \%\}/memcached_servers = \{\% for host in groups\[\x27memcached\x27\] \%\}inet6\:/g'
+ 1277  grep -nrP --color "memcached_servers = \{\% for host in groups\[\x27memcached\x27\] \%\}" | sed -r 's/memcached_servers = \{\% for host in groups\[\x27memcached\x27\] \%\}/memcached_servers = \{\% for host in groups\[\x27memcached\x27\] \%\}inet6\:/g'
+ 1279  grep -nrP --color "memcached_servers = \{\% for host in groups\[\x27memcached\x27\] \%\}" | sed -r 's/memcached_servers = \{\% for host in groups\[\x27memcached\x27\] \%\}/memcached_servers = \{\% for host in groups\[\x27memcached\x27\] \%\}inet6\:/g'
+ 1348  find . -type f -exec sed -r "s/\{\{ hostvars\[host\]\[\x27ansible_\x27 \+ hostvars\[host\]\[\x27api_interface\x27\]\]\[\x27ipv6\x27\]\[0\]\[\x27address\x27\] \}\}/\[\{\{ hostvars\[host\]\[\x27ansible_\x27 \+ hostvars\[host\]\[\x27api_interface\x27\]\]\[\x27ipv6\x27\]\[0\]\[\x27address\x27\] \}\}\]/g" {} +
+ 1349  find . -type f -exec sed -i -r "s/\{\{ hostvars\[host\]\[\x27ansible_\x27 \+ hostvars\[host\]\[\x27api_interface\x27\]\]\[\x27ipv6\x27\]\[0\]\[\x27address\x27\] \}\}/\[\{\{ hostvars\[host\]\[\x27ansible_\x27 \+ hostvars\[host\]\[\x27api_interface\x27\]\]\[\x27ipv6\x27\]\[0\]\[\x27address\x27\] \}\}\]/g" {} +
+ 1354  find . -type f -exec sed -i -r "s/\{\{ hostvars\[host\]\[\x27ansible_\x27 \+ hostvars\[host\]\[\x27api_interface\x27\]\]\[\x27ipv6\x27\]\[0\]\[\x27address\x27\] \}\}/\[\{\{ hostvars\[host\]\[\x27ansible_\x27 \+ hostvars\[host\]\[\x27api_interface\x27\]\]\[\x27ipv6\x27\]\[0\]\[\x27address\x27\] \}\}\]/g" {} +
+ 1356  find . -type f -exec sed -i -r 's/memcached_servers = \{\% for host in groups\[\x27memcached\x27\] \%\}/memcached_servers = \{\% for host in groups\[\x27memcached\x27\] \%\}inet6\:/g' {} +
+ 1369  find . -type f -exec sed -i -r 's/\{\{ database_address \}\}:\{\{ database_port \}\}/\{\{ database_address \}\}\]:\{\{ database_port \}\}\]/g' {} +
+ 1404  history | grep 'sed'
+ 1405  vim sedipv6.txt
+ 1415  find . -type f -exec sed -i -r 's/\{\{ database_address \}\}\]:\{\{ database_port \}\}\]/\{\{ database_address \}\}:\{\{ database_port \}\}/g' {} +
+ 1420  find . -type f -exec sed -i -r 's/\{\{ database_address \}\}:\{\{ database_port \}\}/\[\{\{ database_address \}\}\]:\{\{ database_port \}\}/g' {} +
+ 1426  find . -type f -exec sed -i -r 's/\[\{\{ api_interface_address \}\}\]:/\{\{ api_interface_address \}\}:/g' {} +
+ 1429  find . -type f -exec sed -i -r 's/\{\{ api_interface_address \}\}:/\[\{\{ api_interface_address \}\}\]:/g' {} +
+ 1433  find . -type f -exec sed -i -r 's/\{\{ kolla_internal_vip_address \}\}:/\[\{\{ kolla_internal_vip_address \}\}\]:/g' {} +
+ 1437  find . -type f -exec sed -i -r 's/\{\{ kolla_internal_fqdn \}\}:/\[\{\{ kolla_internal_fqdn \}\}\]:/g' {} +
+ 1438  history | grep sed
+ 1439  cat sedipv6.txt 
+ 1440  vim sedipv6.txt 
+ 1441  mv sedipv6.txt sedipv6.sh
+ 1444  find . -type f -exec sed -i -r 's/\{\{ monasca_database_address \}\}:/\[\{\{ monasca_database_address \}\}\]:/g' {} +
+ 1445  find . -type f -exec sed -i -r 's/\{\{ elasticsearch_address \}\}:/\[\{\{ elasticsearch_address \}\}\]:/g' {} +
+ 1448  echo "find . -type f -exec sed -i -r 's/\{\{ monasca_database_address \}\}:/\[\{\{ monasca_database_address \}\}\]:/g' {} +" >> ../sedipv6.sh 
+ 1449  echo "find . -type f -exec sed -i -r 's/\{\{ elasticsearch_address \}\}:/\[\{\{ elasticsearch_address \}\}\]:/g' {} +" >> ../sedipv6.sh 
+ 1535  history | grep 'sed'
+ 1536  history | grep 'sed' > sed_calls.txt
+ 1538  find . -type f -exec sed -i -r 's/\{\{ nova_internal_fqdn \}\}:/\[\{\{ nova_internal_fqdn \}\}\]:/g' {} +
+ 1539  find . -type f -exec sed -i -r 's/\{\{ nova_external_fqdn \}\}:/\[\{\{ nova_external_fqdn \}\}\]:/g' {} +
+ 1547  history | grep 'sed' > ../sed_calls.txt 

@@ -17,7 +17,7 @@
     - inventory_hostname in groups['qdrouterd']
 
 - name: Check if all qdrouterd hostnames are resolvable
-  command: "getent ahostsv4 {{ hostvars[item]['ansible_hostname'] }}"
+  command: "getent ahosts {{ hostvars[item]['ansible_hostname'] }}"
   changed_when: false
   register: qdrouterd_hostnames
   with_items: "{{ groups['qdrouterd'] }}"
@@ -25,4 +25,4 @@
 - fail: msg="Hostname has to resolve to IP address of api_interface"
   with_items: "{{ qdrouterd_hostnames.results }}"
   when:
-    - "item.stdout.find(hostvars[item['item']]['ansible_' ~ hostvars[item['item']]['api_interface']]['ipv4']['address']) == -1"
+    - "item.stdout.find(hostvars[item['item']]['ansible_' ~ hostvars[item['item']]['api_interface']]['ipv6'][0]['address']) == -1"

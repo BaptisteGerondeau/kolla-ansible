@@ -263,14 +263,14 @@
     - kolla_action != "config"
     - inventory_hostname in groups[service.group]
     - service.enabled | bool
-    - config_json.changed | bool
-      or nova_conf.changed | bool
-      or policy_overwriting.changed | bool
-      or vcenter_ca_file | bool
-      or nova_compute_release_file | bool
-      or nova_compute_container.changed | bool
-      or ( ceph_conf is not none and ceph_conf.changed | bool )
-      or ( nova_ceph_keyring is defined and nova_ceph_keyring.changed | bool )
+      #    - config_json.changed | bool
+      #      or nova_conf.changed | bool
+      #      or policy_overwriting.changed | bool
+      #      or vcenter_ca_file | bool
+      #      or nova_compute_release_file | bool
+      #      or nova_compute_container.changed | bool
+      #      or ( ceph_conf is not none and ceph_conf.changed | bool )
+      #      or ( nova_ceph_keyring is defined and nova_ceph_keyring.changed | bool )
 
 - name: Restart nova-compute-ironic container
   vars:

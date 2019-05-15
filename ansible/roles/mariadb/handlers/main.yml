@@ -48,6 +48,7 @@
 # from the crash. See https://bugs.launchpad.net/kolla-ansible/+bug/1820325.
 # TODO(mgoddard): Remove this task in Train.
 - name: shutdown slave mariadb
+  ignore_errors: yes
   vars:
     service_name: "mariadb"
     service: "{{ mariadb_services[service_name] }}"
@@ -68,7 +69,6 @@
     labels:
       UPGRADE:
     restart_policy: "never"
-  no_log: true
   when:
     - kolla_action != "config"
     - has_cluster | bool
@@ -144,6 +144,7 @@
 # from the crash. See https://bugs.launchpad.net/kolla-ansible/+bug/1820325.
 # TODO(mgoddard): Remove this task in Train.
 - name: shutdown master mariadb
+  ignore_errors: yes
   vars:
     service_name: "mariadb"
     service: "{{ mariadb_services[service_name] }}"
@@ -164,7 +165,6 @@
     labels:
       UPGRADE:
     restart_policy: "never"
-  no_log: true
   when:
     - kolla_action != "config"
     - inventory_hostname == master_host

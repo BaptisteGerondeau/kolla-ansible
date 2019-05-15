@@ -1,4 +1,8 @@
 ---
+- name: Make run dir for fluentd
+  become: true
+  shell: "mkdir -p /var/lib/docker/volumes/*/diff/var/run/td-agent"
+
 - name: Restart fluentd container
   vars:
     service_name: "fluentd"

@@ -67,7 +67,7 @@ zun_services:
 ####################
 zun_database_name: "zun"
 zun_database_user: "{% if use_preconfigured_databases | bool and use_common_mariadb_user | bool %}{{ database_user }}{% else %}zun{% endif %}"
-zun_database_address: "{{ database_address }}:{{ database_port }}"
+zun_database_address: "[{{ database_address }}]:{{ database_port }}"
 
 
 ####################
@@ -96,9 +96,9 @@ zun_compute_dimensions: "{{ default_container_dimensions }}"
 ####################
 ## OpenStack
 ####################
-zun_admin_endpoint: "{{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ zun_api_port }}/v1/"
-zun_internal_endpoint: "{{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ zun_api_port }}/v1/"
-zun_public_endpoint: "{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ zun_api_port }}/v1/"
+zun_admin_endpoint: "{{ admin_protocol }}://[{{ kolla_internal_fqdn }}]:{{ zun_api_port }}/v1/"
+zun_internal_endpoint: "{{ internal_protocol }}://[{{ kolla_internal_fqdn }}]:{{ zun_api_port }}/v1/"
+zun_public_endpoint: "{{ public_protocol }}://[{{ kolla_external_fqdn }}]:{{ zun_api_port }}/v1/"
 
 zun_logging_debug: "{{ openstack_logging_debug }}"
 

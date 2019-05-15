@@ -28,8 +28,8 @@
         api_interface_name: "{{ item }}"
         api_interface_address: "{{ api_interface_address }}"
       when:
-        - hostvars[inventory_hostname][ansible_interface_name]['ipv4'] is defined
-        - hostvars[inventory_hostname][ansible_interface_name]['ipv4']['address'] == api_interface_address
+        - hostvars[inventory_hostname][ansible_interface_name]['ipv6'][0] is defined
+        - hostvars[inventory_hostname][ansible_interface_name]['ipv6'][0]['address'] == api_interface_address
       with_items: "{{ ansible_interfaces }}"
 
     - name: detect whether need build images

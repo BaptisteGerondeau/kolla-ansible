@@ -12,8 +12,10 @@ common_services:
     image: "{{ fluentd_image_full }}"
     environment:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+      FLUENTD_CONF: "fluentd/td-agent.conf"
     volumes:
-      - "{{ node_config_directory }}/fluentd/:{{ container_config_directory }}/:ro"
+      - "{{ node_config_directory }}/fluentd:/fluentd/etc/fluentd:rw"
+      - "fluentd_plugins:/fluentd/plugins"
       - "/etc/localtime:/etc/localtime:ro"
       - "kolla_logs:/var/log/kolla/"
     dimensions: "{{ fluentd_dimensions }}"

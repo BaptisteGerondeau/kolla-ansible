@@ -1,4 +1,4 @@
-{% set log_dir = '/var/log/kolla/placement' %}
+{% set log_dir = '/var/log/kolla/nova' %}
 {% if placement_install_type == 'binary' %}
     {% set python_path = '/usr/lib/python3/dist-packages' if kolla_base_distro == 'ubuntu' else '/usr/lib/python2.7/site-packages' %}
 {% else %}
@@ -6,7 +6,7 @@
 {% endif %}
 {% set wsgi_directory = '/usr/bin' if placement_install_type == 'binary' else '/var/lib/kolla/venv/bin' %}
 
-Listen {{ api_interface_address }}:{{ placement_api_listen_port }}
+Listen [{{ api_interface_address }}]:{{ placement_api_listen_port }}
 
 ServerSignature Off
 ServerTokens Prod

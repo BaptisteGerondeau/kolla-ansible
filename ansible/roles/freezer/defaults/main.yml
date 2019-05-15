@@ -59,9 +59,9 @@ freezer_scheduler_dimensions: "{{ default_container_dimensions }}"
 ####################
 # OpenStack
 ####################
-freezer_admin_endpoint: "{{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ freezer_api_port }}"
-freezer_internal_endpoint: "{{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ freezer_api_port }}"
-freezer_public_endpoint: "{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ freezer_api_port }}"
+freezer_admin_endpoint: "{{ admin_protocol }}://[{{ kolla_internal_fqdn }}]:{{ freezer_api_port }}"
+freezer_internal_endpoint: "{{ internal_protocol }}://[{{ kolla_internal_fqdn }}]:{{ freezer_api_port }}"
+freezer_public_endpoint: "{{ public_protocol }}://[{{ kolla_external_fqdn }}]:{{ freezer_api_port }}"
 
 freezer_logging_debug: "{{ openstack_logging_debug }}"
 

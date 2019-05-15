@@ -32,7 +32,7 @@ placement_services:
 ####################
 placement_database_name: "placement"
 placement_database_user: "{% if use_preconfigured_databases | bool and use_common_mariadb_user | bool %}{{ database_user }}{% else %}placement{% endif %}"
-placement_database_address: "{{ database_address }}:{{ database_port }}"
+placement_database_address: "[{{ database_address }}]:{{ database_port }}"
 
 ####################
 # Docker
@@ -40,7 +40,7 @@ placement_database_address: "{{ database_address }}:{{ database_port }}"
 placement_install_type: "{{ kolla_install_type }}"
 placement_tag: "{{ openstack_release }}"
 
-placement_api_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ placement_install_type }}-placement-api"
+placement_api_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ placement_install_type }}-nova-placement-api"
 placement_api_tag: "{{ placement_tag }}"
 placement_api_image_full: "{{ placement_api_image }}:{{ placement_api_tag }}"
 
@@ -49,9 +49,9 @@ placement_api_dimensions: "{{ default_container_dimensions }}"
 ####################
 # OpenStack
 ####################
-placement_admin_endpoint: "{{ admin_protocol }}://{{ placement_internal_fqdn }}:{{ placement_api_port }}"
-placement_internal_endpoint: "{{ internal_protocol }}://{{ placement_internal_fqdn }}:{{ placement_api_port }}"
-placement_public_endpoint: "{{ public_protocol }}://{{ placement_external_fqdn }}:{{ placement_api_port }}"
+placement_admin_endpoint: "{{ admin_protocol }}://[{{ placement_internal_fqdn }}]:{{ placement_api_port }}"
+placement_internal_endpoint: "{{ internal_protocol }}://[{{ placement_internal_fqdn }}]:{{ placement_api_port }}"
+placement_public_endpoint: "{{ public_protocol }}://[{{ placement_external_fqdn }}]:{{ placement_api_port }}"
 
 placement_logging_debug: "{{ openstack_logging_debug }}"
 

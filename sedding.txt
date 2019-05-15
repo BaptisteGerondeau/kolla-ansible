@@ -1,0 +1,5 @@
+ansible/roles/zookeeper/templates/zookeeper.cfg.j2:7:server.{{ loop.index }}=[{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv6'][0]['address'] }}]:{{ zookeeper_peer_port }}:{{ zookeeper_quorum_port }}
+ansible/roles/mariadb/defaults/main.yml:51:external_haproxy_members: "{% for host in groups['mariadb'] %}server {{ host }} [{{ host }}]:{{ mariadb_port }} check inter 2000 rise 2 fall 5{% if not loop.first %} backup{% endif %};{% endfor %}"
+ansible/group_vars/all.yml:729:keystone_admin_url: "{{ admin_protocol }}://[{{ keystone_internal_fqdn }}]:{{ keystone_admin_port }}"
+ansible/group_vars/all.yml:730:keystone_internal_url: "{{ internal_protocol }}://[{{ keystone_internal_fqdn }}]:{{ keystone_public_port }}"
+ansible/group_vars/all.yml:731:keystone_public_url: "{{ public_protocol }}://[{{ keystone_external_fqdn }}]:{{ keystone_public_port }}"

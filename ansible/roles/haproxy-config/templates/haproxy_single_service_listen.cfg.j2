@@ -56,8 +56,8 @@ listen {{ service_name }}
             {% for host in groups[host_group] %}
                 {% set api_interface = "ansible_%s"|format(hostvars[host]['api_interface']) %}
                 {% set host_name = hostvars[host]['ansible_hostname'] %}
-                {% set host_ip = hostvars[host][api_interface]['ipv4']['address'] %}
-    server {{ host_name }} {{ host_ip }}:{{ listen_port }} {{ haproxy_health_check }}
+                {% set host_ip = hostvars[host][api_interface]['ipv6'][0]['address'] %}
+    server {{ host_name }} [{{ host_ip }}]:{{ listen_port }} {{ haproxy_health_check }}
             {% endfor %}
         {% endif %}
     {% endif %}

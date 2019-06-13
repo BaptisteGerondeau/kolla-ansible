@@ -4,7 +4,7 @@ global
     user haproxy
     group haproxy
     daemon
-    log {{ syslog_server }}:{{ syslog_udp_port }} {{ syslog_haproxy_facility }}
+    log [{{ syslog_server }}]:{{ syslog_udp_port }} {{ syslog_haproxy_facility }}
     maxconn {{ haproxy_max_connections }}
     nbproc {{ haproxy_processes }}
     {% if haproxy_processes > 1 and haproxy_process_cpu_map | bool %}
@@ -33,7 +33,7 @@ defaults
     maxconn {{ haproxy_defaults_max_connections }}
 
 listen stats
-   bind {{ api_interface_address }}:{{ haproxy_stats_port }}
+   bind [{{ api_interface_address }}]:{{ haproxy_stats_port }}
    mode http
    stats enable
    stats uri /
@@ -42,9 +42,9 @@ listen stats
    stats auth {{ haproxy_user }}:{{ haproxy_password }}
 
 frontend status
-    bind {{ api_interface_address }}:{{ haproxy_monitor_port }}
+    bind [{{ api_interface_address }}]:{{ haproxy_monitor_port }}
     {% if api_interface_address != kolla_internal_vip_address %}
-    bind {{ kolla_internal_vip_address }}:{{ haproxy_monitor_port }}
+    bind [{{ kolla_internal_vip_address }}]:{{ haproxy_monitor_port }}
     {% endif %}
     mode http
     monitor-uri /

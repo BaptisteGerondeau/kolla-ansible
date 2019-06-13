@@ -19,7 +19,7 @@ openstack_service_workers: "1"
 {% if need_build_image and not is_previous_release %}
 # NOTE(Jeffrey4l): use different a docker namespace name in case it pull image from hub.docker.io when deplying
 docker_namespace: "lokolla"
-docker_registry: "{{ api_interface_address }}:4000"
+docker_registry: "[{{ api_interface_address }}]:4000"
 openstack_release: "{{ build_image_tag }}"
 {% else %}
 # use docker hub images
@@ -29,7 +29,7 @@ docker_namespace: "kolla"
 # will be the source of images during the upgrade.
 # NOTE(yoctozepto): this is required here for CI because we run templating
 # of docker systemd command only once, using the previous release when upgrading
-docker_custom_option: "--insecure-registry {{ api_interface_address }}:4000"
+docker_custom_option: "--insecure-registry [{{ api_interface_address }}]:4000"
 {% endif %}
 {% if not is_previous_release %}
 openstack_release: "{{ zuul.branch | basename }}"

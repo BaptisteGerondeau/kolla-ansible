@@ -3,7 +3,7 @@
 {% else %}
     {% set python_path = '/var/lib/kolla/venv/lib/python2.7/site-packages' %}
 {% endif %}
-Listen {{ api_interface_address }}:{{ cinder_api_listen_port }}
+Listen [{{ api_interface_address }}]:{{ cinder_api_listen_port }}
 
 ServerSignature Off
 ServerTokens Prod

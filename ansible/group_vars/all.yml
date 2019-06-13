@@ -66,7 +66,7 @@ container_proxy:
 
 # By default, Kolla API services bind to the network address assigned
 # to the api_interface.  Allow the bind address to be an override.
-api_interface_address: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
+api_interface_address: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv6'][0]['address'] }}"
 
 ################
 # Chrony options
@@ -154,7 +154,7 @@ om_rpc_port: "{{ rabbitmq_port }}"
 om_rpc_group: "rabbitmq"
 om_rpc_vhost: "/"
 
-rpc_transport_url: "{{ om_rpc_transport }}://{% for host in groups[om_rpc_group] %}{{ om_rpc_user }}:{{ om_rpc_password }}@{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ om_rpc_port }}{% if not loop.last %},{% endif %}{% endfor %}/{{ om_rpc_vhost }}"
+rpc_transport_url: "{{ om_rpc_transport }}://{% for host in groups[om_rpc_group] %}{{ om_rpc_user }}:{{ om_rpc_password }}@[{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv6'][0]['address'] }}]:{{ om_rpc_port }}{% if not loop.last %},{% endif %}{% endfor %}/{{ om_rpc_vhost }}"
 
 # oslo.messaging notify transport valid options are [ rabbit ]
 om_notify_transport: "rabbit"
@@ -164,7 +164,7 @@ om_notify_port: "{{ rabbitmq_port }}"
 om_notify_group: "rabbitmq"
 om_notify_vhost: "/"
 
-notify_transport_url: "{{ om_notify_transport }}://{% for host in groups[om_notify_group] %}{{ om_notify_user }}:{{ om_notify_password }}@{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ om_notify_port }}{% if not loop.last %},{% endif %}{% endfor %}/{{ om_notify_vhost }}"
+notify_transport_url: "{{ om_notify_transport }}://{% for host in groups[om_notify_group] %}{{ om_notify_user }}:{{ om_notify_password }}@[{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv6'][0]['address'] }}]:{{ om_notify_port }}{% if not loop.last %},{% endif %}{% endfor %}/{{ om_notify_vhost }}"
 
 ####################
 # Networking options
@@ -182,9 +182,9 @@ tunnel_interface: "{{ network_interface }}"
 octavia_network_interface: "{{ api_interface }}"
 bifrost_network_interface: "{{ network_interface }}"
 dns_interface: "{{ network_interface }}"
-migration_interface_address: "{{ hostvars[inventory_hostname]['ansible_' + migration_interface]['ipv4']['address'] }}"
-tunnel_interface_address: "{{ hostvars[inventory_hostname]['ansible_' + tunnel_interface]['ipv4']['address'] }}"
-octavia_network_interface_address: "{{ hostvars[inventory_hostname]['ansible_' + octavia_network_interface]['ipv4']['address'] }}"
+migration_interface_address: "{{ hostvars[inventory_hostname]['ansible_' + migration_interface]['ipv6'][0]['address'] }}"
+tunnel_interface_address: "{{ hostvars[inventory_hostname]['ansible_' + tunnel_interface]['ipv6'][0]['address'] }}"
+octavia_network_interface_address: "{{ hostvars[inventory_hostname]['ansible_' + octavia_network_interface]['ipv6'][0]['address'] }}"
 
 # Valid options are [ openvswitch, linuxbridge, vmware_nsxv, vmware_nsxv3, vmware_dvs, opendaylight ]
 neutron_plugin_agent: "openvswitch"
@@ -697,7 +697,8 @@ redis_connection_string: "redis://{% for host in groups['redis'] %}{% if host ==
 ####################
 # valid values: ["elasticsearch", "redis"]
 osprofiler_backend: "elasticsearch"
-elasticsearch_connection_string: "elasticsearch://{{ elasticsearch_address }}:{{ elasticsearch_port }}"
+elasticsearch_connection_string: "elasticsearch://[{{ elasticsearch_address }}]:{{ elasticsearch_port }}"
+redis_connection_string: "redis://:{{ redis_master_password }}@[{{ redis_address }}]:{{ redis_port }}"
 osprofiler_backend_connection_string: "{{ redis_connection_string if osprofiler_backend == 'redis' else elasticsearch_connection_string }}"
 
 ####################
@@ -734,9 +735,9 @@ kibana_log_prefix: "flog"
 ####################
 keystone_internal_fqdn: "{{ kolla_internal_fqdn }}"
 keystone_external_fqdn: "{{ kolla_external_fqdn }}"
-keystone_admin_url: "{{ admin_protocol }}://{{ keystone_internal_fqdn }}:{{ keystone_admin_port }}"
-keystone_internal_url: "{{ internal_protocol }}://{{ keystone_internal_fqdn }}:{{ keystone_public_port }}"
-keystone_public_url: "{{ public_protocol }}://{{ keystone_external_fqdn }}:{{ keystone_public_port }}"
+keystone_admin_url: "{{ admin_protocol }}://[{{ keystone_internal_fqdn }}]:{{ keystone_admin_port }}"
+keystone_internal_url: "{{ internal_protocol }}://[{{ keystone_internal_fqdn }}]:{{ keystone_public_port }}"
+keystone_public_url: "{{ public_protocol }}://[{{ keystone_external_fqdn }}]:{{ keystone_public_port }}"
 
 keystone_admin_user: "admin"
 keystone_admin_project: "admin"

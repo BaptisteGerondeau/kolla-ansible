@@ -21,6 +21,11 @@
         }
     ],
     "permissions": [
+	{
+            "path": "{{ container_config_directory }}",
+            "owner": "rabbitmq:rabbitmq",
+            "recurse": true
+        },
         {
             "path": "/var/lib/rabbitmq",
             "owner": "rabbitmq:rabbitmq",

@@ -31,11 +31,11 @@ reporting-disabled = true
   store-interval = "10s"
 [admin]
   enabled = true
-  bind-address = "{{ api_interface_address }}:{{ influxdb_admin_port }}"
+  bind-address = "[{{ api_interface_address }}]:{{ influxdb_admin_port }}"
   https-enabled = false
 [http]
   enabled = true
-  bind-address = "{{ api_interface_address }}:{{ influxdb_http_port }}"
+  bind-address = "[{{ api_interface_address }}]:{{ influxdb_http_port }}"
   auth-enabled = false
   log-enabled = true
   write-tracing = false

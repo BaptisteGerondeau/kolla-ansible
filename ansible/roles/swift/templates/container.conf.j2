@@ -1,6 +1,6 @@
 {% set interface = swift_replication_interface if 'replicat' in service_name else swift_storage_interface %}
 [DEFAULT]
-bind_ip = {{ hostvars[inventory_hostname]['ansible_' + interface]['ipv4']['address'] }}
+bind_ip = {{ hostvars[inventory_hostname]['ansible_' + interface]['ipv6'][0]['address'] }}
 bind_port = {{ swift_container_server_port }}
 devices = {{ swift_devices_mount_point }}
 mount_check = false

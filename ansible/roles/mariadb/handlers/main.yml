@@ -27,6 +27,7 @@
 # TODO(jeffrey4l), remove the task check when the wait_for bug is fixed
 # https://github.com/ansible/ansible-modules-core/issues/2788
 - name: wait first mariadb container
+  ignore_errors: yes
   wait_for:
     host: "{{ api_interface_address }}"
     port: "{{ mariadb_port }}"
@@ -81,6 +82,7 @@
 # TODO(jeffrey4l), remove the task check when the wait_for bug is fixed
 # https://github.com/ansible/ansible-modules-core/issues/2788
 - name: wait for slave mariadb
+  ignore_errors: yes
   wait_for:
     host: "{{ api_interface_address }}"
     port: "{{ mariadb_port }}"
@@ -119,7 +121,6 @@
     name: "upgrade_mariadb"
     restart_policy: no
     volumes: "{{ service.volumes }}"
-  no_log: true
   when:
     - kolla_action == "upgrade"
     - inventory_hostname != master_host
@@ -147,6 +148,7 @@
 # TODO(jeffrey4l), remove the task check when the wait_for bug is fixed
 # https://github.com/ansible/ansible-modules-core/issues/2788
 - name: Waiting for master mariadb
+  ignore_errors: yes
   wait_for:
     host: "{{ api_interface_address }}"
     port: "{{ mariadb_port }}"
@@ -185,7 +187,6 @@
     name: "upgrade_mariadb"
     restart_policy: no
     volumes: "{{ service.volumes }}"
-  no_log: true
   when:
     - kolla_action == "upgrade"
     - inventory_hostname == master_host

@@ -13,7 +13,7 @@ mon initial members = {% for host in groups['ceph-mon'] %}{{ hostvars[host]['ans
 {% elif ceph_mon_host_type == 'INVENTORY' %}
 mon initial members = {% for host in groups['ceph-mon'] %}{{ host }}{% if not loop.last %}, {% endif %}{% endfor %}
 {%- else %}
-mon initial members = {% for host in groups['ceph-mon'] %}{{ hostvars[host]['ansible_' + hostvars[host]['storage_interface']]['ipv4']['address'] }}{% if not loop.last %}, {% endif %}{% endfor %}
+mon initial members = {% for host in groups['ceph-mon'] %}{{ hostvars[host]['ansible_' + hostvars[host]['storage_interface']]['ipv6'][0]['address'] }}{% if not loop.last %}, {% endif %}{% endfor %}
 {% endif %}
 
 mon host = {% for host in groups['ceph-mon'] %}{{ hostvars[host]['ansible_' + hostvars[host]['storage_interface']]['ipv6'][0]['address'] }}{% if not loop.last %}, {% endif %}{% endfor %}

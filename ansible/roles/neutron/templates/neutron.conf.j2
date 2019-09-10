@@ -97,7 +97,10 @@ root_helper = sudo neutron-rootwrap /etc/neutron/rootwrap.conf
 
 [database]
 connection = mysql+pymysql://{{ neutron_database_user }}:{{ neutron_database_password }}@{{ neutron_database_address }}/{{ neutron_database_name }}
-max_retries = -1
+connection_recycle_timeout = 3600
+max_pool_size = 0
+max_overflow = 1000
+max_retries = 50
 
 [keystone_authtoken]
 www_authenticate_uri = {{ keystone_internal_url }}

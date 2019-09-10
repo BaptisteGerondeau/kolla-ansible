@@ -66,7 +66,7 @@ container_proxy:
 api_interface_address: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv6'][0]['address'] }}"
 
 # This is used to get the ip corresponding to the storage_interface.
-storage_interface_address: "{{ hostvars[inventory_hostname]['ansible_' + storage_interface]['ipv4']['address'] }}"
+storage_interface_address: "{{ hostvars[inventory_hostname]['ansible_' + storage_interface]['ipv6'][0]['address'] }}"
 
 ################
 # Chrony options
@@ -110,7 +110,7 @@ docker_restart_policy_retry: "10"
 docker_configure_for_zun: "no"
 docker_zun_options: -H tcp://{{ api_interface_address }}:2375
 docker_zun_config:
-  cluster-store: etcd://{% for host in groups.get('etcd', []) %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ hostvars[host]['etcd_client_port'] }}{% if not loop.last %},{% endif %}{% endfor %}
+cluster-store: etcd://{% for host in groups.get('etcd', []) %}[{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv6'][0]['address'] }}]:{{ hostvars[host]['etcd_client_port'] }}{% if not loop.last %},{% endif %}{% endfor %}
 
 # Timeout after Docker sends SIGTERM before sending SIGKILL.
 docker_graceful_timeout: 60
@@ -712,7 +712,7 @@ enable_kibana: "{{ 'yes' if enable_central_logging | bool or enable_monasca | bo
 ####################
 # Redis options
 ####################
-redis_connection_string: "redis://{% for host in groups['redis'] %}{% if host == groups['redis'][0] %}admin:{{ redis_master_password }}@{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ redis_sentinel_port }}?sentinel=kolla{% else %}&sentinel_fallback={{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ redis_sentinel_port }}{% endif %}{% endfor %}&socket_timeout=60&retry_on_timeout=yes"
+redis_connection_string: "redis://{% for host in groups['redis'] %}{% if host == groups['redis'][0] %}admin:{{ redis_master_password }}@[{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv6'][0]['address'] }}]:{{ redis_sentinel_port }}?sentinel=kolla{% else %}&sentinel_fallback=[{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv6'][0]['address'] }}]:{{ redis_sentinel_port }}{% endif %}{% endfor %}&socket_timeout=60&retry_on_timeout=yes"
 
 ####################
 # Osprofiler options

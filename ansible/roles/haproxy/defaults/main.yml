@@ -62,11 +62,11 @@ keepalived_extra_volumes: "{{ default_extra_volumes }}"
 
 # Default timeout values
 haproxy_http_request_timeout: "10s"
-haproxy_queue_timeout: "1m"
-haproxy_connect_timeout: "10s"
-haproxy_client_timeout: "1m"
-haproxy_server_timeout: "1m"
-haproxy_check_timeout: "10s"
+haproxy_queue_timeout: "3600s"
+haproxy_connect_timeout: "3600s"
+haproxy_client_timeout: "3600s"
+haproxy_server_timeout: "3600s"
+haproxy_check_timeout: "3600s"
 
 # Check http://www.haproxy.org/download/1.5/doc/configuration.txt for available options
 haproxy_defaults_balance: "roundrobin"

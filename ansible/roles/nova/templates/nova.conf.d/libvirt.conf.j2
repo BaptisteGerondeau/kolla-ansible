@@ -1,5 +1,5 @@
 [libvirt]
-connection_uri = "qemu+tcp://{{ migration_interface_address }}/system"
+connection_uri = "qemu+tcp://[{{ migration_interface_address }}]/system"
 {% if enable_ceph | bool and nova_backend == "rbd" %}
 images_type = rbd
 images_rbd_pool = {{ ceph_nova_pool_name }}

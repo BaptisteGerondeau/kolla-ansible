@@ -150,14 +150,15 @@ valid_interfaces = internal
 
 {% if not service_name.startswith('nova-compute') %}
 [database]
+connection_recycle_timeout = 7200
 connection = mysql+pymysql://{{ nova_database_user }}:{{ nova_database_password }}@{{ nova_database_address }}/{{ nova_database_name }}
 max_pool_size = 50
 max_overflow = 1000
-max_retries = -1
+max_retries = 50
 
 [api_database]
 connection = mysql+pymysql://{{ nova_api_database_user }}:{{ nova_api_database_password }}@{{ nova_api_database_address }}/{{ nova_api_database_name }}
-max_retries = -1
+max_retries = 50
 {% endif %}
 
 [cache]

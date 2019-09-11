@@ -4,7 +4,7 @@
     pre-run: tests/pre.yml
     run: tests/run.yml
     post-run: tests/post.yml
-    attempts: 1
+    attempts: 5
     timeout: 7200
     required-projects:
       - openstack/kolla-ansible
@@ -19,10 +19,16 @@
     vars:
       scenario: aio
       enable_core_openstack: yes
-      api_network_prefix: "192.0.2."
-      api_network_prefix_length: "24"
       api_interface_name: vxlan0
-      kolla_internal_vip_address: "192.0.2.10"
+      # FIXME(yoctozepto): for testing...
+      # api_network_prefix: "192.0.2."
+      # api_network_prefix_length: "24"
+      # kolla_internal_vip_address: "192.0.2.10"
+      # address_family: 'ipv4'
+      api_network_prefix: "fd:fb::"
+      api_network_prefix_length: "64"
+      kolla_internal_vip_address: "fd:fb::ff:0"
+      address_family: 'ipv6'
     roles:
       - zuul: zuul/zuul-jobs
 
@@ -32,6 +38,16 @@
     vars:
       previous_release: stein
       scenario: upgrade
+
+- job:
+    name: kolla-ansible-ipv6-base
+    parent: kolla-ansible-base
+    voting: false
+    vars:
+      api_network_prefix: "fd::"
+      api_network_prefix_length: "64"
+      kolla_internal_vip_address: "fd::ff:0"
+      address_family: 'ipv6'
 
 - job:
     name: kolla-ansible-bifrost-base

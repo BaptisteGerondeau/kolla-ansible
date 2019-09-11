@@ -26,6 +26,23 @@
       base_distro: ubuntu
       install_type: source
 
+# NOTE(yoctozepto): ipv6 on centos 7 is broken due to old erlang (rabbitmq) and general issues with connectivity
+- job:
+    name: kolla-ansible-centos-source-ipv6
+    parent: kolla-ansible-ipv6-base
+    nodeset: kolla-ansible-centos
+    vars:
+      base_distro: centos
+      install_type: source
+
+- job:
+    name: kolla-ansible-ubuntu-source-ipv6
+    parent: kolla-ansible-ipv6-base
+    nodeset: kolla-ansible-bionic
+    vars:
+      base_distro: ubuntu
+      install_type: source
+
 - job:
     name: kolla-ansible-centos-binary
     parent: kolla-ansible-base
@@ -70,6 +87,24 @@
     voting: false
     vars:
       base_distro: centos
+      install_type: source
+      scenario: ceph
+    host-vars:
+      primary:
+        ceph_osd_storetype: filestore
+      secondary1:
+        ceph_osd_storetype: bluestore
+      secondary2:
+        ceph_osd_storetype: bluestore
+
+- job:
+    name: kolla-ansible-ubuntu-source-ceph-ipv6
+    parent: kolla-ansible-ipv6-base
+    nodeset: kolla-ansible-bionic-multi
+    timeout: 9000
+    voting: false
+    vars:
+      base_distro: ubuntu
       install_type: source
       scenario: ceph
     host-vars:

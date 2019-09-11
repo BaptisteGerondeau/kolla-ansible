@@ -1,5 +1,5 @@
 {
-    "command": "/opt/memcached_exporter/memcached_exporter --web.listen-address {{ api_interface_address }}:{{ prometheus_memcached_exporter_port }} --memcached.address {{ api_interface_address }}:{{ memcached_port }}",
+    "command": "/opt/memcached_exporter/memcached_exporter --web.listen-address {{ 'api' | kolla_address(addr_context='url') }}:{{ prometheus_memcached_exporter_port }} --memcached.address {{ 'api' | kolla_address(addr_context='url') }}:{{ memcached_port }}",
     "config_files": [],
     "permissions": [
         {

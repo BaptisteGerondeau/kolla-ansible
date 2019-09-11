@@ -4,7 +4,7 @@
     {% set python_path = '/usr/lib/python2.7/site-packages' if qinling_install_type == 'binary' else '/var/lib/kolla/venv/lib/python2.7/site-packages' %}
 {% endif %}
 
-Listen {{ api_interface_address }}:{{ qinling_api_port }}
+Listen {{ 'api' | kolla_address(addr_context='url') }}:{{ qinling_api_port }}
 
 ServerSignature Off
 ServerTokens Prod

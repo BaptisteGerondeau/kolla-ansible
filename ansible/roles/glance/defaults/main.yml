@@ -37,7 +37,7 @@ glance_services:
 ####################
 # HAProxy
 ####################
-haproxy_members: "{% for host in glance_api_hosts %}server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ glance_api_listen_port }} check inter 2000 rise 2 fall 5;{% endfor %}"
+haproxy_members: "{% for host in glance_api_hosts %}server {{ hostvars[host]['ansible_hostname'] }} {{ 'api' | kolla_address(host) }}:{{ glance_api_listen_port }} check inter 2000 rise 2 fall 5;{% endfor %}"
 
 ####################
 # Keystone

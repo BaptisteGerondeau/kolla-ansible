@@ -78,6 +78,9 @@ def check_json_j2():
     def basename_filter(text):
         return text.split('\\')[-1]
 
+    def kolla_address_filter_mock(*args, **kwargs):
+        return "127.0.0.1"
+
     # Mock ansible hostvars variable, which is a nested dict
     def hostvars():
         return collections.defaultdict(hostvars)
@@ -91,6 +94,7 @@ def check_json_j2():
             loader=jinja2.FileSystemLoader(root))
         env.filters['bool'] = bool_filter
         env.filters['basename'] = basename_filter
+        env.filters['kolla_address'] = kolla_address_filter_mock
         template = env.get_template(filename)
         # Mock ansible variables.
         context = {

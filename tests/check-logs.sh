@@ -19,6 +19,8 @@ function check_file_for_level {
 any_critical=0
 for level in CRITICAL ERROR WARNING; do
     all_file=/tmp/logs/kolla/all-${level}.log
+    # clear file to avoid collecting duplicates
+    echo -n > $all_file
     any_matched=0
     echo "Checking for $level log messages"
     for f in $(sudo find /var/log/kolla/ -type f); do
@@ -34,10 +36,12 @@ for level in CRITICAL ERROR WARNING; do
     done
     if [[ $any_matched -eq 1 ]]; then
         echo "Found some $level log messages. Matches in $all_file"
+    else
+        rm $all_file
     fi
 done
 
-if [[ $any_critical -eq 1 ]]; then
+if [[ "x$KOLLA_POST" == "x" && $any_critical -eq 1 ]]; then
     echo "Found critical log messages - failing job."
     exit 1
 fi

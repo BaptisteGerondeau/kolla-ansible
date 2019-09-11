@@ -19,7 +19,7 @@ logging:
 
 analyzers:
 {% for host in groups['skydive-analyzer'] %}
-  - {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ skydive_analyzer_port }}
+  - {{ 'api' | kolla_address(host) }}:{{ skydive_analyzer_port }}
 {% endfor %}
 
 etcd:
@@ -28,13 +28,13 @@ etcd:
   embedded: false
   servers:
 {% for host in groups['etcd'] %}
-    - http://{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ etcd_client_port }}
+    - http://{{ 'api' | kolla_address(host) }}:{{ etcd_client_port }}
 {% endfor %}
 {% else %}
   embedded: true
   servers:
 {% for host in groups['skydive-analyzer'] %}
-  - http://{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ etcd_client_port }}
+  - http://{{ 'api' | kolla_address(host) }}:{{ etcd_client_port }}
 {% endfor %}
   listen: {{ api_interface_address }}:{{ etcd_client_port }}
 {% endif %}

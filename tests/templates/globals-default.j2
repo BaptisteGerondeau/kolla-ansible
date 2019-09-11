@@ -2,6 +2,7 @@
 kolla_base_distro: "{{ base_distro }}"
 kolla_install_type: "{{ install_type }}"
 network_interface: "{{ api_interface_name }}"
+network_af: "{{ address_family }}"
 docker_restart_policy: "no"
 # TODO(mgoddard): Always do this in Ussuri cycle.
 {% if not is_previous_release or previous_release != 'stein' %}
@@ -16,7 +17,12 @@ docker_custom_config:
 keepalived_virtual_router_id: "{{ 250 | random(1) }}"
 
 {% if enable_core_openstack | bool %}
-kolla_internal_vip_address: "{{ kolla_internal_vip_address }}"
+kolla_internal_vip_address: "{{ api_interface_address if hostvars | length > 2 else '169.254.169.10' if address_family == 'ipv4' else 'fd::ff:0' }}"
+enable_haproxy: "{{ 'no' if hostvars | length > 2 else 'yes' }}"
+{% if address_family == 'ipv6' %}
+# FIXME(yoctozepto): ipv6 workaround for URLs with VIP
+kolla_internal_fqdn: "kolla-internal"
+{% endif %}
 neutron_external_interface: "fake_interface"
 openstack_logging_debug: "True"
 openstack_service_workers: "1"

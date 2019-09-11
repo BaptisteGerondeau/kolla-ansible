@@ -16,6 +16,22 @@
       install_type: source
 
 - job:
+    name: kolla-ansible-centos-source-ipv6
+    parent: kolla-ansible-ipv6-base
+    nodeset: kolla-ansible-centos
+    vars:
+      base_distro: centos
+      install_type: source
+
+- job:
+    name: kolla-ansible-ubuntu-source-ipv6
+    parent: kolla-ansible-ipv6-base
+    nodeset: kolla-ansible-bionic
+    vars:
+      base_distro: ubuntu
+      install_type: source
+
+- job:
     name: kolla-ansible-centos-binary
     parent: kolla-ansible-base
     nodeset: kolla-ansible-centos

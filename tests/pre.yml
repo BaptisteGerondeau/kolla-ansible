@@ -9,7 +9,17 @@
       assert:
         that: nodepool.private_ipv4 in ansible_all_ipv4_addresses
         fail_msg: >-
-          The nodepool private IP address {{ nodepool.private_ipv4 }} is not assigned
+          The nodepool private IPv4 address {{ nodepool.private_ipv4 }} is not assigned
+      when:
+        - address_family == 'ipv4'
+
+    - name: Assert that the nodepool public IPv6 address is assigned
+      assert:
+        that: nodepool.public_ipv6 in ansible_all_ipv6_addresses
+        fail_msg: >-
+          The nodepool public IPv6 address {{ nodepool.public_ipv6 }} is not assigned
+      when:
+        - address_family == 'ipv6'
 
     - name: Install dbus for debian system
       apt: name=dbus

@@ -4,6 +4,10 @@
 type_drivers = {{ neutron_type_drivers }}
 tenant_network_types = {{ neutron_tenant_network_types }}
 
+{% if tunnel_af == "ipv6" %}
+overlay_ip_version = 6
+{% endif %}
+
 {% if neutron_plugin_agent == "openvswitch" %}
 {% if enable_hyperv | bool %}
 mechanism_drivers = openvswitch,hyperv

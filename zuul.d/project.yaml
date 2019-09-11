@@ -14,6 +14,8 @@
       jobs:
         - kolla-ansible-centos-source
         - kolla-ansible-ubuntu-source
+        # - kolla-ansible-centos-source-ipv6  # FIXME(yoctozepto): for now centos does not work with ipv6 in zuul
+        - kolla-ansible-ubuntu-source-ipv6
         - kolla-ansible-ubuntu-source-ceph
         - kolla-ansible-centos-source-ceph
         - kolla-ansible-ubuntu-source-cinder-lvm:

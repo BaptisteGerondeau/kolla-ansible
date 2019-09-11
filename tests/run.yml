@@ -27,8 +27,45 @@
         disk_type: "{{ ceph_storetype if is_ceph else 'cinder-lvm' }}"
         ceph_storetype: "{{ hostvars[inventory_hostname].get('ceph_osd_storetype') }}"
 
+    - name: Ensure IPv6 internal VIP FQDN in /etc/hosts
+      lineinfile:
+        dest: /etc/hosts
+        regexp: "^fd::ff:0 kolla-internal$"
+        line: "fd::ff:0 kolla-internal"
+        state: present
+      become: True
+      when:
+        - address_family == 'ipv6'
+
 - hosts: primary
   tasks:
+    # FIXME: in multi node env, api_interface may be different on each node.
+    - name: detect api_interface_name variable for IPv4
+      vars:
+        ansible_interface_name: "ansible_{{ item.replace('-', '_') }}"
+        api_interface_address: "{{ hostvars[inventory_hostname]['nodepool']['private_ipv4'] }}"
+      set_fact:
+        api_interface_name: "{{ item }}"
+        api_interface_address: "{{ api_interface_address }}"
+      when:
+        - address_family == 'ipv4'
+        - hostvars[inventory_hostname][ansible_interface_name]['ipv4'] is defined
+        - hostvars[inventory_hostname][ansible_interface_name]['ipv4']['address'] == api_interface_address
+      with_items: "{{ ansible_interfaces }}"
+
+    - name: detect api_interface_name variable for IPv6
+      vars:
+        ansible_interface_name: "ansible_{{ item.replace('-', '_') }}"
+        api_interface_address: "{{ hostvars[inventory_hostname]['nodepool']['public_ipv6'] }}"
+      set_fact:
+        api_interface_name: "{{ item }}"
+        api_interface_address: "{{ api_interface_address }}"
+      when:
+        - address_family == 'ipv6'
+        - hostvars[inventory_hostname][ansible_interface_name]['ipv6'] is defined
+        - hostvars[inventory_hostname][ansible_interface_name]['ipv6'][0]['address'] == api_interface_address
+      with_items: "{{ ansible_interfaces }}"
+
     - name: detect whether need build images
       set_fact:
         need_build_image: true

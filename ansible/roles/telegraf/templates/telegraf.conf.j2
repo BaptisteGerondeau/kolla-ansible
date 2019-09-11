@@ -14,7 +14,7 @@
 {% if enable_influxdb | bool %}
 {% for host in groups['influxdb'] %}
 [[outputs.influxdb]]
-  urls = ["{{ influxdb_proto }}://{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address']}}:{{ influxdb_http_port }}"]
+  urls = ["{{ influxdb_proto }}://{{ 'api' | kolla_address(host)}}:{{ influxdb_http_port }}"]
   database = "telegraf" # required
   retention_policy = "autogen"
   write_consistency = "any"
@@ -27,7 +27,7 @@
   fielddrop = ["time_*"]
 {% if enable_collectd | bool and inventory_hostname in groups['collectd'] %}
 [[inputs.socket_listener]]
-  service_address = "udp://{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:{{ collectd_udp_port }}"
+  service_address = "udp://{{ 'api' | kolla_address }}:{{ collectd_udp_port }}"
   name_prefix = "collectd_"
   data_format = "collectd"
   collectd_typesdb = ["/usr/share/collectd/types.db"]
@@ -37,7 +37,7 @@
 [[inputs.diskio]]
 {% if inventory_hostname in groups['influxdb'] and enable_influxdb | bool %}
 [[inputs.influxdb]]
-  urls = ["{{ influxdb_proto }}://{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:{{ influxdb_http_port }}/debug/vars"]
+  urls = ["{{ influxdb_proto }}://{{ 'api' | kolla_address }}:{{ influxdb_http_port }}/debug/vars"]
 {% endif %}
 [[inputs.kernel]]
 [[inputs.mem]]

@@ -103,7 +103,7 @@ password = {{ cinder_keystone_password }}
 
 memcache_security_strategy = ENCRYPT
 memcache_secret_key = {{ memcache_secret_key }}
-memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
+memcached_servers = {% for host in groups['memcached'] %}{{ 'api' | kolla_address(host, addr_context='memcache') }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
 
 
 [oslo_concurrency]
@@ -210,5 +210,5 @@ auth_endpoint = {{ keystone_internal_url }}
 backend_url = {{ redis_connection_string }}
 {% elif cinder_coordination_backend == 'etcd' %}
 # NOTE(jeffrey4l): python-etcd3 module do not support multi endpoint here.
-backend_url = etcd3://{{ hostvars[groups['etcd'][0]]['ansible_' + hostvars[groups['etcd'][0]]['api_interface']]['ipv4']['address'] }}:{{ etcd_client_port }}
+backend_url = etcd3://{{ 'api' | kolla_address(groups['etcd'][0]) }}:{{ etcd_client_port }}
 {% endif %}

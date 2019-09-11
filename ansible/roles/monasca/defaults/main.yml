@@ -141,11 +141,11 @@ monasca_influxdb_retention_policy:
 ####################
 # Monasca
 ####################
-monasca_kafka_servers: "{% for host in groups['kafka'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ kafka_port }}{% if not loop.last %},{% endif %}{% endfor %}"
-monasca_zookeeper_servers: "{% for host in groups['zookeeper'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ zookeeper_client_port }}{% if not loop.last %},{% endif %}{% endfor %}"
-monasca_memcached_servers: "{% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}"
-monasca_elasticsearch_servers: "{% for host in groups['elasticsearch'] %}'{{ internal_protocol }}://{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ elasticsearch_port }}'{% if not loop.last %},{% endif %}{% endfor %}"
-monasca_storm_nimbus_servers: "{% for host in groups['storm-nimbus'] %}'{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}'{% if not loop.last %},{% endif %}{% endfor %}"
+monasca_kafka_servers: "{% for host in groups['kafka'] %}{{ 'api' | kolla_address(host) }}:{{ kafka_port }}{% if not loop.last %},{% endif %}{% endfor %}"
+monasca_zookeeper_servers: "{% for host in groups['zookeeper'] %}{{ 'api' | kolla_address(host) }}:{{ zookeeper_client_port }}{% if not loop.last %},{% endif %}{% endfor %}"
+monasca_memcached_servers: "{% for host in groups['memcached'] %}{{ 'api' | kolla_address(host, addr_context='memcache') }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}"
+monasca_elasticsearch_servers: "{% for host in groups['elasticsearch'] %}'{{ internal_protocol }}://{{ 'api' | kolla_address(host) }}:{{ elasticsearch_port }}'{% if not loop.last %},{% endif %}{% endfor %}"
+monasca_storm_nimbus_servers: "{% for host in groups['storm-nimbus'] %}'{{ 'api' | kolla_address(host) }}'{% if not loop.last %},{% endif %}{% endfor %}"
 # NOTE(dszumski): Only one NTP server is currently supported by the Monasca Agent plugin
 monasca_ntp_server: "{{ external_ntp_servers | first }}"
 

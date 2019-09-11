@@ -17,7 +17,7 @@
         build_image_tag: "change_{{ zuul.change | default('none') }}"
         is_upgrade: "{{ 'upgrade' in scenario }}"
         is_ceph: "{{ 'ceph' in scenario }}"
-        primary_address: "{{ hostvars.primary['ansible_' + api_interface_name].ipv4.address }}"
+        primary_address: "{{ hostvars.primary['ansible_' + api_interface_name].ipv4.address if address_family == 'ipv4' else hostvars.primary['ansible_' + api_interface_name].ipv6[0].address }}"
 
     - name: Prepare disks for Ceph or LVM
       script: "setup_disks.sh {{ disk_type }}"
@@ -26,6 +26,16 @@
       vars:
         disk_type: "{{ ceph_storetype if is_ceph else 'cinder-lvm' }}"
         ceph_storetype: "{{ hostvars[inventory_hostname].get('ceph_osd_storetype') }}"
+
+    - name: Ensure IPv6 internal VIP FQDN in /etc/hosts
+      lineinfile:
+        dest: /etc/hosts
+        regexp: "^fd::ff:0 kolla-internal$"
+        line: "fd::ff:0 kolla-internal"
+        state: present
+      become: True
+      when:
+        - address_family == 'ipv6'
 
 - hosts: primary
   tasks:

@@ -163,7 +163,7 @@ max_retries = -1
 [cache]
 backend = oslo_cache.memcache_pool
 enabled = True
-memcache_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
+memcache_servers = {% for host in groups['memcached'] %}{{ 'api' | kolla_address(host, addr_context='memcache') }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
 
 
 [keystone_authtoken]
@@ -178,12 +178,13 @@ password = {{ nova_keystone_password }}
 
 memcache_security_strategy = ENCRYPT
 memcache_secret_key = {{ memcache_secret_key }}
-memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
+memcached_servers = {% for host in groups['memcached'] %}{{ 'api' | kolla_address(host, addr_context='memcache') }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
 
 {% if service_name == 'nova-compute' %}
 {% if nova_compute_virt_type in ['kvm', 'qemu'] %}
 {# must be an include because Ansible 2.8 (and earlier) does not like defined variables referencing undefined variables: migration_interface_address here #}
 {# see https://github.com/ansible/ansible/issues/58835 #}
+{# NOTE(yoctozepto): ^ no longer relevant since using kolla_address #}
 {% include 'nova.conf.d/libvirt.conf.j2' %}
 {% endif %}
 {% endif %}

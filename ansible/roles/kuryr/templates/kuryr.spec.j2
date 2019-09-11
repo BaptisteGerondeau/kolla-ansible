@@ -1,1 +1,1 @@
-http://{{ api_interface_address }}:{{ kuryr_port }}
+http://{{ 'api' | kolla_address(addr_context='url') }}:{{ kuryr_port }}

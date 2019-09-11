@@ -8,6 +8,12 @@
         content: "{{ hostvars[inventory_hostname] | to_nice_json }}"
         dest: "{{ logs_dir }}/facts.json"
 
+    - name: Run check-logs.sh script
+      environment:
+        KOLLA_POST: "POST"
+      script: check-logs.sh
+      failed_when: false
+
     - name: Run diagnostics script
       environment:
         KOLLA_INTERNAL_VIP_ADDRESS: "{{ kolla_internal_vip_address }}"

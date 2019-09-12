@@ -1,29 +1,20 @@
-# These initial groups are the only groups required to be modified. The
-#fdaf:f988:a3f9:1722::15a kolla0
-#fdaf:f988:a3f9:1722::11f kolla1
+#fdaf:f988:a3f9:1722::1ed kolla0
+#fdaf:f988:a3f9:1722::1a1 kolla1
 #fdaf:f988:a3f9:1722::14f kolla2
 #fdaf:f988:a3f9:1722::19a kolla3
 
-# additional groups are for more control of the environment.
 [control]
-# These hostname must be resolvable from your deployment host
-fdaf:f988:a3f9:1722::15a ansible_user=bgerdeb ansible_password=bgerdeb ansible_become=true
-fdaf:f988:a3f9:1722::11f ansible_user=bgerdeb ansible_password=bgerdeb ansible_become=true
+fdaf:f988:a3f9:1722::1ed ansible_user=bgerdeb ansible_password=bgerdeb ansible_become=true
 
-# The above can also be specified as follows:
-#control[01:03]     ansible_user=kolla
-
-# The network nodes are where your l3-agent and loadbalancers will run
-# This can be the same as a host in the control group
-[network:children]
-control
+[network]
+fdaf:f988:a3f9:1722::19a ansible_user=bgerdeb ansible_password=bgerdeb ansible_become=true
 
 [compute]
 fdaf:f988:a3f9:1722::14f ansible_user=bgerdeb ansible_password=bgerdeb ansible_become=true
 fdaf:f988:a3f9:1722::19a ansible_user=bgerdeb ansible_password=bgerdeb ansible_become=true
 
 [monitoring]
-fdaf:f988:a3f9:1722::15a ansible_user=bgerdeb ansible_password=bgerdeb ansible_become=true
+fdaf:f988:a3f9:1722::1ed ansible_user=bgerdeb ansible_password=bgerdeb ansible_become=true
 
 # When compute nodes and control nodes use different interfaces,
 # you need to comment out "api_interface" and other interfaces from the globals.yml
@@ -31,7 +22,7 @@ fdaf:f988:a3f9:1722::15a ansible_user=bgerdeb ansible_password=bgerdeb ansible_b
 #compute01 neutron_external_interface=eth0 api_interface=em1 storage_interface=em1 tunnel_interface=em1
 
 [storage]
-fdaf:f988:a3f9:1722::11f ansible_user=bgerdeb ansible_password=bgerdeb ansible_become=true
+fdaf:f988:a3f9:1722::14f ansible_user=bgerdeb ansible_password=bgerdeb ansible_become=true
 
 [deployment]
 localhost       ansible_connection=local ansible_become=true ansible_python_interpreter=/home/bgerdeb/kollav6/bin/python
@@ -103,7 +94,7 @@ network
 #ansible_winrm_server_cert_validation=ignore
 
 [mariadb]
-fdaf:f988:a3f9:1722::11f ansible_user=bgerdeb ansible_password=bgerdeb ansible_become=true
+fdaf:f988:a3f9:1722::1a1 ansible_user=bgerdeb ansible_password=bgerdeb ansible_become=true
 
 [rabbitmq:children]
 control
@@ -130,8 +121,9 @@ monitoring
 [mongodb:children]
 control
 
-[keystone:children]
-control
+[keystone]
+fdaf:f988:a3f9:1722::1a1 ansible_user=bgerdeb ansible_password=bgerdeb ansible_become=true
+fdaf:f988:a3f9:1722::19a ansible_user=bgerdeb ansible_password=bgerdeb ansible_become=true
 
 [glance:children]
 control
@@ -779,3 +771,4 @@ monitoring
 
 [prometheus-elasticsearch-exporter:children]
 elasticsearch
+

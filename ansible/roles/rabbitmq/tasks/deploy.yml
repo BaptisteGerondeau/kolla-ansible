@@ -3,5 +3,13 @@
 
 - include_tasks: bootstrap.yml
 
+- name: Reload rabbitmq definitions
+  vars:
+    service_name: "rabbitmq"
+    service: "{{ rabbitmq_services[service_name] }}"
+  shell: "docker exec {{ service.container_name }} rabbitmqadmin import {{ container_config_directory }}/definitions.json"
+  when:
+    - inventory_hostname == groups[service.group]
+
 - name: Flush handlers
   meta: flush_handlers

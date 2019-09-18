@@ -17,8 +17,10 @@
     - inventory_hostname == groups[service.group]|first
   notify:
     - Waiting for rabbitmq to start on first node
+    - Reload rabbitmq definitions 
 
 - name: Waiting for rabbitmq to start on first node
+  ignore_errors: yes
   vars:
     service_name: "rabbitmq"
     service: "{{ rabbitmq_services[service_name] }}"
@@ -43,3 +45,23 @@
   when:
     - kolla_action != "config"
     - inventory_hostname != groups[service.group]|first
+  notify:
+    - Waiting for rabbitmq to start (rest of nodes)
+    - Reload rabbitmq definitions
+
+- name: Waiting for rabbitmq to start (rest of nodes)
+  ignore_errors: yes
+  vars:
+    service_name: "rabbitmq"
+    service: "{{ rabbitmq_services[service_name] }}"
+  shell: "docker exec {{ service.container_name }} rabbitmqctl wait {{ rabbitmq_pid_file }}"
+  when:
+    - inventory_hostname == groups[service.group]|first
+
+- name: Reload rabbitmq definitions
+  vars:
+    service_name: "rabbitmq"
+    service: "{{ rabbitmq_services[service_name] }}"
+  shell: "docker exec {{ service.container_name }} rabbitmqadmin import {{ container_config_directory }}/definitions.json"
+  when:
+    - inventory_hostname == groups[service.group]

@@ -104,8 +104,7 @@ def kolla_address(context, network_name, hostname=None, addr_context=None):
         # prefix 128 is the default from keepalived
         # it needs to be excluded here
         global_ipv6_addresses = [x for x in af_interface if
-                                 x['scope'] == 'global' and
-                                 x['prefix'] != '128']
+                                 x['scope'] == 'global' ]
         if global_ipv6_addresses:
             address = global_ipv6_addresses[0]['address']
         else:

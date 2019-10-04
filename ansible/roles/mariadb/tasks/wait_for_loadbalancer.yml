@@ -4,11 +4,12 @@
 # due to the health check polling in HAProxy.
 - name: wait for MariaDB to be available via HAProxy
   wait_for:
-    host: "{{ database_address }}"
+    host: "{{ kolla_internal_vip_address }}"
     port: "{{ database_port }}"
     connect_timeout: 1
     timeout: 60
     search_regex: "MariaDB"
+  ignore_errors: yes
   register: check_mariadb_port
   until: check_mariadb_port is success
   retries: 10
